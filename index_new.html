@@ -16,7 +16,9 @@
 
   <p>We've all had that moment. You are waiting in line and cannot wait to get your delicious Chipotle meal. But once it's actually your turn to order, you freeze up at all the choices behind the screen. Fear no more, "What Do I Chipotle?" is here to help!</p>
 
-  <div id="main-burst"></div>
+  <div id="sequence"></div>
+  <div id="main-burst">
+  </div>
   
   <div id="svg-container">
   <span id="drinks-burst"></span>
@@ -63,6 +65,12 @@
         var name = d.name;
         return  '<b>' + name + '</b><br>' + format_number(d.size);
     }
+
+    var b = {
+      w: 75, h: 30, s: 3, t: 10
+    };
+
+    var totalSize = 0;
 
     var mainWidth = 960,
         mainHeight = 700,
@@ -113,6 +121,7 @@
         .attr("d", mainArc)
         .style("fill", function(d,i) {  
             //console.log(d);
+
             if( d.depth===0 ){
                 return '#fff';
             } 
@@ -128,7 +137,7 @@
             var hue =  hueDXScale(d.dx);
             var colorshift = hsl.h+(hue/4); 
             return d3.hsl(colorshift,hsl.s,hsl.l)
-        })  
+        })
         .on("click", click)
         //tooltip stuff
         .on("mouseover", function(d) {
@@ -152,9 +161,12 @@
         //text stuff
         var mainText = mainG.append("text")
         .attr("class", "labels")
-        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
-        .attr("x", function(d) { return mainY(d.y); })
-        .attr("dx", "6") // margin
+        .attr("text-anchor", function(d) {
+          return mainX(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+        })
+        .attr("transform", function(d) { 
+          var angle = mainX(d.x + d.dx / 2) * 180 / Math.PI - 90;
+          return "rotate(" + angle + ")translate(" + (mainY(d.y)+10) + ")rotate(" + (angle > 90 ? -180:0) + ")"; })
         .attr("dy", ".35em") // vertical-align
         .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
         .text(function(d) { 
@@ -165,10 +177,6 @@
         .attr("dy", -(mainHeight/2+10))
         .attr("text-anchor", "middle")
         .text("Overview of All Orders");
-
-        function computeTextRotation(d) {
-          return (mainX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
-        }
 
       function click(d) {
         // fade out all text elements
@@ -185,10 +193,20 @@
                 // fade in the text element and recalculate positions
                 mainArcText.transition().duration(750)
                   .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
-                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
-                  .attr("x", function(d) { return mainY(d.y); });
+                   .attr("text-anchor", function(d) {
+                      return mainX(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+                    })
+                  .attr("transform", function(d) { 
+                    var angle = mainX(d.x + d.dx / 2) * 180 / Math.PI - 90;
+                    return "rotate(" + angle + ")translate(" + (mainY(d.y)+10) + ")rotate(" + (angle > 90 ? -180:0) + ")"; })
+
+                var mainArcPath = d3.select(this.parentNode).select("g");
+                mainArcPath.attr("opacity", function(e) {
+                  return (e.dx > 0.005 ? 1 : 0); // 0.005 radians = 0.29 degrees
+                })
               }
-        });
+          });
+          mainPath.style()
       }
     });
 
@@ -273,7 +291,7 @@
             var hue =  hueDXScale(d.dx);
             var colorshift = hsl.h+(hue/4); 
             return d3.hsl(colorshift,hsl.s,hsl.l)
-        })  
+        }) 
         .on("click", click)
         //tooltip stuff
         .on("mouseover", function(d) {
@@ -297,9 +315,12 @@
         //text stuff
         var drinksText = drinksG.append("text")
         .attr("class", "labels")
-        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
-        .attr("x", function(d) { return drinksY(d.y); })
-        .attr("dx", "6") // margin
+        .attr("text-anchor", function(d) {
+          return drinksX(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+        })
+        .attr("transform", function(d) { 
+          var angle = drinksX(d.x + d.dx / 2) * 180 / Math.PI - 90;
+          return "rotate(" + angle + ")translate(" + (drinksY(d.y)+10) + ")rotate(" + (angle > 90 ? -180:0) + ")"; })
         .attr("dy", ".35em") // vertical-align
         .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
         .text(function(d) { 
@@ -310,10 +331,6 @@
         .attr("dy", -(drinksHeight/2+10))
         .attr("text-anchor", "middle")
         .text("Thirsty?");
-
-        function computeTextRotation(d) {
-          return (drinksX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
-        }
 
       function click(d) {
         // fade out all text elements
@@ -330,8 +347,12 @@
                 // fade in the text element and recalculate positions
                 drinksArcText.transition().duration(750)
                   .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
-                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
-                  .attr("x", function(d) { return drinksY(d.y); });
+                  .attr("text-anchor", function(d) {
+                      return drinksX(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+                    })
+                  .attr("transform", function(d) { 
+                    var angle = drinksX(d.x + d.dx / 2) * 180 / Math.PI - 90;
+                    return "rotate(" + angle + ")translate(" + (drinksY(d.y)+10) + ")rotate(" + (angle > 90 ? -180:0) + ")"; })
               }
         });
       }
@@ -441,9 +462,12 @@ var sidesWidth = 500,
         //text stuff
         var sidesText = sidesG.append("text")
         .attr("class", "labels")
-        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
-        .attr("x", function(d) { return sidesY(d.y); })
-        .attr("dx", "6") // margin
+        .attr("text-anchor", function(d) {
+          return sidesX(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+        })
+        .attr("transform", function(d) { 
+          var angle = sidesX(d.x + d.dx / 2) * 180 / Math.PI - 90;
+          return "rotate(" + angle + ")translate(" + (sidesY(d.y)+10) + ")rotate(" + (angle > 90 ? -180:0) + ")"; })
         .attr("dy", ".35em") // vertical-align
         .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
         .text(function(d) { 
@@ -454,10 +478,6 @@ var sidesWidth = 500,
         .attr("dy", -(sidesHeight/2+10))
         .attr("text-anchor", "middle")
         .text("Still Hungry?");
-
-        function computeTextRotation(d) {
-          return (sidesX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
-        }
 
       function click(d) {
         // fade out all text elements
@@ -474,8 +494,12 @@ var sidesWidth = 500,
                 // fade in the text element and recalculate positions
                 sidesArcText.transition().duration(750)
                   .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
-                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
-                  .attr("x", function(d) { return sidesY(d.y); });
+                  .attr("text-anchor", function(d) {
+                      return sidesX(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+                    })
+                  .attr("transform", function(d) { 
+                    var angle = sidesX(d.x + d.dx / 2) * 180 / Math.PI - 90;
+                    return "rotate(" + angle + ")translate(" + (sidesY(d.y)+10) + ")rotate(" + (angle > 90 ? -180:0) + ")"; })
               }
         });
       }
