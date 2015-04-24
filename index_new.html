@@ -1,174 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-
-  <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta charset="utf-8">
-  <title>What do I Chipotle</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-
-  <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Load the d3 library. -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link href='css/style.css' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 </head>
 <body>
-
-  <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <section class="header">
-      <div class="container">
-        <div class="row">
-          <div class="one-half column" style="margin-top: 15%">
-            <p>What do I</p>
-            <h4>Chipotle?</h4>
-            <p></p>
-          </div>
-        </div>
-      </div>
+  <section id="header">
+      <article>What Do I Chipotle?</article>
+  </section>
+  <section id="banner" data-type="background" data-speed="10">
   </section>
 
-  <section class="list">
-      <div class="container">
-        <div class="row">
-          <div class="one-third column" style="margin-top: 10%">
-            <h3>TOP 10 BURRITOS</h3>
-            <ol>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-            </ol>
-          </div>
-          <div class="one-third column" style="margin-top: 10%">
-            <h3>TOP 10 BURRITOS</h3>
-            <ol>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-            </ol>
-          </div>
-          <div class="one-third column" style="margin-top: 10%">
-            <h3>TOP 10 BURRITOS</h3>
-            <ol>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-                <li>Burrito</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-  </section>
-    <section class="list">
-      <div class="container">
-        <div class="row">
-          <div class="one-third column" style="margin-top: 10%">
-            <h3>Header</h3>
-            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
- 
-          </div>
-          <div class="two-thirds column svg" style="margin-top: 10%">
-            <h3>TOP 10 BURRITOS</h3>
-          </div>
-        </div>
-      </div>
-  </section>
-    
-    <svg width="300" height="350" class="key">
-        <circle cx="20" cy="50" r="5" fill="#f85a48" />
-        <text x = "35" y = "55"> Fresh Tomato Salsa (Mild) </text>
+  <p>We've all had that moment. You are waiting in line and cannot wait to get your delicious Chipotle meal. But once it's actually your turn to order, you freeze up at all the choices behind the screen. Fear no more, "What Do I Chipotle?" is here to help!</p>
 
-        <circle cx = "20" cy = "70" r = "5" fill = "#96ad00" />
-        <text x = "35" y = "75" > Tomatillo-Green Chili Salsa (Medium) </text>
-
-        <circle cx = "20" cy = "90" r = "5" fill = "red" />
-        <text x = "35" y = "95"> Tomatillo Red Chili Salsa </text>
-
-        <circle cx = "20" cy = "110" r = "5" fill = "#a30000" />
-        <text x = "35" y = "115"> Tomatillo-Red Chili Salsa (Hot) </text>
-
-        <circle cx = "20" cy = "130" r = "5" fill = "#f3deaf" />
-        <text x = "35" y = "135"> Roasted Chili Corn Salsa </text>
-
-        <circle cx = "20" cy = "150" r = "5" fill = "#f3a467" />
-        <text x = "35" y = "155"> Roasted Chili Corn Salsa (Medium) </text>
-
-        <circle cx = "20" cy = "170" r = "5" fill = "black" />
-        <text x = "35" y = "175" > Black Beans </text>
-
-        <circle cx = "20" cy = "190" r = "5" fill = "#ac652f" />
-        <text x = "35" y = "195"> Pinto Beans </text>
-
-        <circle cx = "20" cy = "210" r = "5" fill = "#2C6674" />
-        <text x = "35" y = "215"> Fajita Vegetables </text>
-
-        <circle cx = "20" cy = "230" r = "5" fill = "#c4c1bf" />
-        <text x = "35" y = "235"> Rice </text>
-
-        <circle cx = "20" cy = "250" r = "5" fill = "#daff7f" />
-        <text x = "35" y = "255"> Cilantro-Lime Rice </text>
-
-        <circle cx = "20" cy = "270" r = "5" fill = "orange" />
-        <text x = "35" y = "275" > Cheese </text>
-
-        <circle cx = "20" cy = "290" r = "5" fill = "#91aaaf" />
-        <text x = "35" y = "295"> Sour Cream </text>
-
-        <circle cx = "20" cy = "310" r = "5" fill = "#5df93e" />
-        <text x = "35" y = "315"> Guacamole </text>
-
-        <circle cx = "20" cy = "330" r = "5" fill = "#afdfa4" />
-        <text x = "35" y = "335"> Lettuce </text>
-    </svg>
+  <div id="main-burst"></div>
+  
+  <div id="drinks-burst"></div>
+  <div id="sides-burst"></div>
 
 <script>
+    /*
+    var svgKey = d3.select("body").append("svg")
+        .attr("width",200)
+        .attr("height",200);*/
 
     var chipotleData;
     var itemNames;
-    var ingredientList = ['Fresh Tomato Salsa (Mild)', 
-                          'Tomatillo-Green Chili Salsa (Medium)', 
-                          'Tomatillo Red Chili Salsa', 'Tomatillo-Red Chili Salsa (Hot)',
-                          'Roasted Chili Corn Salsa', 'Roasted Chili Corn Salsa (Medium)',
-                          'Black Beans', 'Pinto Beans',
-                          'Fajita Vegetables',
-                          'Rice', 'Cilantro-Lime Rice', 'Cheese', 'Sour Cream', 'Guacamole', 'Lettuce'];
-    
-    var svgKey = d3.select("body").append("svg")
-        .attr("width",150)
-        .attr("height",300)
-        .attr("class","key");
-                      
 
     d3.tsv("orders.tsv", function (error, rows) {
         //Store all data
@@ -178,16 +38,6 @@
         //Stores distinct item names
         itemNames = d3.set(m).values().sort();
 
-        //Generate a list of items
-        var str = '<ul class="itemselect">';
-        itemNames.forEach( function(d) {
-            var pass = 'test(\''+d+'\')';
-            str += '<li><a href="#" onclick="'+pass+'">'+d+'</a></li>';
-            //console.log(str);
-        });
-        str += '</ul>';
-        $('body').append(str);
-        
     });
 
     //function to calculate ingredient %
@@ -202,9 +52,303 @@
     }
 
 </script>
+  
+<script>
+    function format_number(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    function format_name(d) {
+        var name = d.name;
+        return  '<b>' + name + '</b><br>' + format_number(d.size);
+    }
+
+    var mainWidth = 960,
+        mainHeight = 700,
+        mainMargin = {top: 30, right: 20, bottom: 30, left: 20},
+        mainRadius = Math.min(mainWidth, mainHeight) / 2;
+
+    var mainX = d3.scale.linear()
+        .range([0, 2 * Math.PI]);
+
+    var mainY = d3.scale.linear()
+        .range([0, mainRadius]);
+
+    var color = d3.scale.category20c();
+
+    var hueDXScale = d3.scale.linear()
+                   .domain([0,1])      
+                   .range([0,360]);
+
+    var mainSvg = d3.select("#main-burst").append("svg")
+        .attr("width", mainWidth)
+        .attr("height", mainHeight + mainMargin.top + mainMargin.bottom)
+        .attr("class", "main-svg")
+      .append("g")
+        .attr("transform", "translate(" + (mainWidth/2) + "," + (mainHeight/2 + mainMargin.top) + ")");
+
+    var mainPartition = d3.layout.partition()
+        .value(function(d) { return d.size; });
+
+    var mainArc = d3.svg.arc()
+        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, mainX(d.x))); })
+        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, mainX(d.x + d.dx))); })
+        .innerRadius(function(d) { return Math.max(0, mainY(d.y)); })
+        .outerRadius(function(d) { return Math.max(0, mainY(d.y + d.dy)); });
+
+    var mainTooltip = d3.select("#main-burst")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", "99")
+        .style("opacity", 0);
+
+    d3.json("main.json", function(error, root) {
+      var mainG = mainSvg.selectAll("g")
+          .data(mainPartition.nodes(root))
+          .enter().append("g");
+
+      var mainPath = mainG.append("path")
+        .attr("d", mainArc)
+        .style("fill", function(d,i) {  
+            //console.log(d);
+            if( d.depth===0 ){
+                return '#fff';
+            } 
+            if( d.depth === 1 ){ 
+                var hue =  hueDXScale(d.dx);
+             
+                d.fill = d3.hsl(hue,0.5,0.6)
+                return d.fill;
+            } 
+            //now create scale for index in current array based on 'value'
+            d.fill = d.parent.fill.brighter(0.5);    
+            var hsl = d3.rgb(d.fill).hsl();          
+            var hue =  hueDXScale(d.dx);
+            var colorshift = hsl.h+(hue/4); 
+            return d3.hsl(colorshift,hsl.s,hsl.l)
+        })  
+        .on("click", click)
+        //tooltip stuff
+        .on("mouseover", function(d) {
+            mainTooltip.html(function() {
+                return d.size;
+            });
+            return mainTooltip.transition()
+              .duration(50)
+              .style("opacity", 0.9);
+        })
+        .on("mousemove", function(d) {
+            return mainTooltip
+              .style("top", (d3.event.pageY-10)+"px")
+              .style("left", (d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function() {
+            return mainTooltip
+              .style("opacity", 0);
+        });
+
+        //text stuff
+        var mainText = mainG.append("text")
+        .attr("class", "labels")
+        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+        .attr("x", function(d) { return mainY(d.y); })
+        .attr("dx", "6") // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
+        .text(function(d) { 
+          return d.name;
+        });
+
+        var mainTitle = mainSvg.append("text")
+        .attr("dy", -(mainHeight/2+10))
+        .attr("text-anchor", "middle")
+        .text("Overview of All Orders");
+
+        function computeTextRotation(d) {
+          return (mainX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+        }
+
+      function click(d) {
+        // fade out all text elements
+        mainText.transition().attr("opacity", 0);
+
+        mainPath.transition()
+          .duration(750)
+          .attrTween("d", mainArcTween(d))
+          .each("end", function(e, i) {
+              // check if the animated element's data e lies within the visible angle span given in d
+              if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                // get a selection of the associated text element
+                var mainArcText = d3.select(this.parentNode).select("text");
+                // fade in the text element and recalculate positions
+                mainArcText.transition().duration(750)
+                  .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
+                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                  .attr("x", function(d) { return mainY(d.y); });
+              }
+        });
+      }
+    });
+
+    d3.select(self.frameElement).style("height", mainHeight + "px");
+
+    // Interpolate the scales!
+    function mainArcTween(d) {
+      var mainXd = d3.interpolate(mainX.domain(), [d.x, d.x + d.dx]),
+          mainYd = d3.interpolate(mainY.domain(), [d.y, 1]),
+          mainYr = d3.interpolate(mainY.range(), [d.y ? 20 : 0, mainRadius]);
+      return function(d, i) {
+        return i
+            ? function(t) { return mainArc(d); }
+            : function(t) { mainX.domain(mainXd(t)); mainY.domain(mainYd(t)).range(mainYr(t)); return mainArc(d); };
+      };
+    }
+</script>
+
+<script>
+
+    var drinksWidth = 500,
+        drinksHeight = 400,
+        drinksMargin = {top: 30, right: 20, bottom: 30, left: 20},
+        drinksRadius = Math.min(drinksWidth, drinksHeight) / 2;
+
+    var drinksX = d3.scale.linear()
+        .range([0, 2 * Math.PI]);
+
+    var drinksY = d3.scale.linear()
+        .range([0, drinksRadius]);
+
+    var color = d3.scale.category20c();
+
+    var hueDXScale = d3.scale.linear()
+                   .domain([0,1])      
+                   .range([0,360]);
+
+    var drinksSvg = d3.select("#drinks-burst").append("svg")
+        .attr("width", drinksWidth)
+        .attr("height", drinksHeight + drinksMargin.top + drinksMargin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + (drinksWidth/2) + "," + (drinksHeight/2 + drinksMargin.top) + ")");
+
+    var drinksPartition = d3.layout.partition()
+        .value(function(d) { return d.size; });
+
+    var drinksArc = d3.svg.arc()
+        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, drinksX(d.x))); })
+        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, drinksX(d.x + d.dx))); })
+        .innerRadius(function(d) { return Math.max(0, drinksY(d.y)); })
+        .outerRadius(function(d) { return Math.max(0, drinksY(d.y + d.dy)); });
+
+    var drinksTooltip = d3.select("#drinks-burst")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", "99")
+        .style("opacity", 0);
+
+    d3.json("drinks.json", function(error, root) {
+      var drinksG = drinksSvg.selectAll("g")
+          .data(drinksPartition.nodes(root))
+          .enter().append("g");
+
+      var drinksPath = drinksG.append("path")
+        .attr("d", drinksArc)
+        .style("fill", function(d,i) {  
+            //console.log(d);
+            if( d.depth===0 ){
+                return '#fff';
+            } 
+            if( d.depth === 1 ){ 
+                var hue =  hueDXScale(d.dx);
+             
+                d.fill = d3.hsl(hue,0.5,0.6)
+                return d.fill;
+            } 
+            //now create scale for index in current array based on 'value'
+            d.fill = d.parent.fill.brighter(0.5);    
+            var hsl = d3.rgb(d.fill).hsl();          
+            var hue =  hueDXScale(d.dx);
+            var colorshift = hsl.h+(hue/4); 
+            return d3.hsl(colorshift,hsl.s,hsl.l)
+        })  
+        .on("click", click)
+        //tooltip stuff
+        .on("mouseover", function(d) {
+            drinksTooltip.html(function() {
+                return d.size;
+            });
+            return drinksTooltip.transition()
+              .duration(50)
+              .style("opacity", 0.9);
+        })
+        .on("mousemove", function(d) {
+            return drinksTooltip
+              .style("top", (d3.event.pageY-10)+"px")
+              .style("left", (d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function() {
+            return drinksTooltip
+              .style("opacity", 0);
+        });
+
+        //text stuff
+        var drinksText = drinksG.append("text")
+        .attr("class", "labels")
+        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+        .attr("x", function(d) { return drinksY(d.y); })
+        .attr("dx", "6") // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
+        .text(function(d) { 
+          return d.name;
+        });
+
+        var title = drinksSvg.append("text")
+        .attr("dy", -(drinksHeight/2+10))
+        .attr("text-anchor", "middle")
+        .text("Thirsty?");
+
+        function computeTextRotation(d) {
+          return (drinksX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+        }
+
+      function click(d) {
+        // fade out all text elements
+        drinksText.transition().attr("opacity", 0);
+
+        drinksPath.transition()
+          .duration(750)
+          .attrTween("d", drinksArcTween(d))
+          .each("end", function(e, i) {
+              // check if the animated element's data e lies within the visible angle span given in d
+              if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                // get a selection of the associated text element
+                var drinksArcText = d3.select(this.parentNode).select("text");
+                // fade in the text element and recalculate positions
+                drinksArcText.transition().duration(750)
+                  .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
+                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                  .attr("x", function(d) { return drinksY(d.y); });
+              }
+        });
+      }
+    });
+
+    d3.select(self.frameElement).style("height", drinksHeight + "px");
+
+    // Interpolate the scales!
+    function drinksArcTween(d) {
+      var drinksXd = d3.interpolate(drinksX.domain(), [d.x, d.x + d.dx]),
+          drinksYd = d3.interpolate(drinksY.domain(), [d.y, 1]),
+          drinksYr = d3.interpolate(drinksY.range(), [d.y ? 20 : 0, drinksRadius]);
+      return function(d, i) {
+        return i
+            ? function(t) { return drinksArc(d); }
+            : function(t) { drinksX.domain(drinksXd(t)); drinksY.domain(drinksYd(t)).range(drinksYr(t)); return drinksArc(d); };
+      };
+    }
+</script>
 
 
-<!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
