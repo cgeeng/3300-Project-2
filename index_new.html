@@ -18,8 +18,10 @@
 
   <div id="main-burst"></div>
   
-  <div id="drinks-burst"></div>
-  <div id="sides-burst"></div>
+  <div id="svg-container">
+  <span id="drinks-burst"></span>
+  <span id="sides-burst"></span>
+  </div>
 
 <script>
     /*
@@ -82,7 +84,7 @@
     var mainSvg = d3.select("#main-burst").append("svg")
         .attr("width", mainWidth)
         .attr("height", mainHeight + mainMargin.top + mainMargin.bottom)
-        .attr("class", "main-svg")
+        .attr("class", "svg")
       .append("g")
         .attr("transform", "translate(" + (mainWidth/2) + "," + (mainHeight/2 + mainMargin.top) + ")");
 
@@ -227,6 +229,7 @@
     var drinksSvg = d3.select("#drinks-burst").append("svg")
         .attr("width", drinksWidth)
         .attr("height", drinksHeight + drinksMargin.top + drinksMargin.bottom)
+        .attr("class", "svg")
       .append("g")
         .attr("transform", "translate(" + (drinksWidth/2) + "," + (drinksHeight/2 + drinksMargin.top) + ")");
 
@@ -349,6 +352,149 @@
     }
 </script>
 
+<script>
+var sidesWidth = 500,
+        sidesHeight = 400,
+        sidesMargin = {top: 30, right: 20, bottom: 30, left: 20},
+        sidesRadius = Math.min(sidesWidth, sidesHeight) / 2;
+
+    var sidesX = d3.scale.linear()
+        .range([0, 2 * Math.PI]);
+
+    var sidesY = d3.scale.linear()
+        .range([0, sidesRadius]);
+
+    var color = d3.scale.category20c();
+
+    var hueDXScale = d3.scale.linear()
+                   .domain([0,1])      
+                   .range([0,360]);
+
+    var sidesSvg = d3.select("#sides-burst").append("svg")
+        .attr("width", sidesWidth)
+        .attr("height", sidesHeight + sidesMargin.top + sidesMargin.bottom)
+        .attr("class", "svg")
+      .append("g")
+        .attr("transform", "translate(" + (sidesWidth/2) + "," + (sidesHeight/2 + sidesMargin.top) + ")");
+
+    var sidesPartition = d3.layout.partition()
+        .value(function(d) { return d.size; });
+
+    var sidesArc = d3.svg.arc()
+        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, sidesX(d.x))); })
+        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, sidesX(d.x + d.dx))); })
+        .innerRadius(function(d) { return Math.max(0, sidesY(d.y)); })
+        .outerRadius(function(d) { return Math.max(0, sidesY(d.y + d.dy)); });
+
+    var sidesTooltip = d3.select("#sides-burst")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", "99")
+        .style("opacity", 0);
+
+    d3.json("sides.json", function(error, root) {
+      var sidesG = sidesSvg.selectAll("g")
+          .data(sidesPartition.nodes(root))
+          .enter().append("g");
+
+      var sidesPath = sidesG.append("path")
+        .attr("d", sidesArc)
+        .style("fill", function(d,i) {  
+            //console.log(d);
+            if( d.depth===0 ){
+                return '#fff';
+            } 
+            if( d.depth === 1 ){ 
+                var hue =  hueDXScale(d.dx);
+             
+                d.fill = d3.hsl(hue,0.5,0.6)
+                return d.fill;
+            } 
+            //now create scale for index in current array based on 'value'
+            d.fill = d.parent.fill.brighter(0.5);    
+            var hsl = d3.rgb(d.fill).hsl();          
+            var hue =  hueDXScale(d.dx);
+            var colorshift = hsl.h+(hue/4); 
+            return d3.hsl(colorshift,hsl.s,hsl.l)
+        })  
+        .on("click", click)
+        //tooltip stuff
+        .on("mouseover", function(d) {
+            sidesTooltip.html(function() {
+                return d.size;
+            });
+            return sidesTooltip.transition()
+              .duration(50)
+              .style("opacity", 0.9);
+        })
+        .on("mousemove", function(d) {
+            return sidesTooltip
+              .style("top", (d3.event.pageY-10)+"px")
+              .style("left", (d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function() {
+            return sidesTooltip
+              .style("opacity", 0);
+        });
+
+        //text stuff
+        var sidesText = sidesG.append("text")
+        .attr("class", "labels")
+        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+        .attr("x", function(d) { return sidesY(d.y); })
+        .attr("dx", "6") // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
+        .text(function(d) { 
+          return d.name;
+        });
+
+        var title = sidesSvg.append("text")
+        .attr("dy", -(sidesHeight/2+10))
+        .attr("text-anchor", "middle")
+        .text("Still Hungry?");
+
+        function computeTextRotation(d) {
+          return (sidesX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+        }
+
+      function click(d) {
+        // fade out all text elements
+        sidesText.transition().attr("opacity", 0);
+
+        sidesPath.transition()
+          .duration(750)
+          .attrTween("d", sidesArcTween(d))
+          .each("end", function(e, i) {
+              // check if the animated element's data e lies within the visible angle span given in d
+              if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                // get a selection of the associated text element
+                var sidesArcText = d3.select(this.parentNode).select("text");
+                // fade in the text element and recalculate positions
+                sidesArcText.transition().duration(750)
+                  .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
+                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                  .attr("x", function(d) { return sidesY(d.y); });
+              }
+        });
+      }
+    });
+
+    d3.select(self.frameElement).style("height", sidesHeight + "px");
+
+    // Interpolate the scales!
+    function sidesArcTween(d) {
+      var sidesXd = d3.interpolate(sidesX.domain(), [d.x, d.x + d.dx]),
+          sidesYd = d3.interpolate(sidesY.domain(), [d.y, 1]),
+          sidesYr = d3.interpolate(sidesY.range(), [d.y ? 20 : 0, sidesRadius]);
+      return function(d, i) {
+        return i
+            ? function(t) { return sidesArc(d); }
+            : function(t) { sidesX.domain(sidesXd(t)); sidesY.domain(sidesYd(t)).range(sidesYr(t)); return sidesArc(d); };
+      };
+    }
+</script>
 
 </body>
 </html>

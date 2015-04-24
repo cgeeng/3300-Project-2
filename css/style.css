@@ -1,9 +1,9 @@
 body {
 	font-family: 'Open Sans';
-	color: #3e271d;
+	color: #6B3A11;
 }
 #header {
-	background-color: #3e271d;
+	background-color: #6B3A11;
 	height: 90px;
 }
 #header article{
@@ -39,10 +39,20 @@ h4{
 	display: block;
 	text-align: center;
 }
-svg{
+.svg-container{
+	display: block;
+}
+.svg{
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
+}
+#drinks-burst, #sides-burst{
+	width: 49%;
+	display: inline-block;
+}
+.text {
+	color: #6B3A11;
 }
 .labels{
 	font-size: 12px;

@@ -1,0 +1,15 @@
+{"name": "Sides",
+"children": [
+ {
+ "name": "Chips", "size": 1171,
+ "children": [
+  {"name": "Nothing", "size": 340},
+  {"name": "Fresh Tomato Salsa", "size": 131},
+  {"name": "Guacamole", "size": 506},
+  {"name": "Roasted Chili Corn Salsa", "size": 41},
+  {"name": "Tomatillo Red Chili Salsa", "size": 78},
+  {"name": "Tomatillo Green Chili Salsa", "size": 75}
+ ]
+ }
+ ]
+}
