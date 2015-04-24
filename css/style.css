@@ -1,0 +1,39 @@
+.header{
+	background-color: #3e271d;	
+	width: 100%;
+	padding-bottom: 4em;
+}
+
+.header p{
+	color: #998675;
+	text-transform: uppercase;
+	font-size: 1.0em;
+	letter-spacing: .6em;
+	margin: 0;
+}
+
+h4{
+	color: #ffffff;
+	letter-spacing: .04em;
+	font-size: 3em;
+	text-transform: uppercase;
+}
+
+h3{
+	color: #3e271d;
+	letter-spacing: -.04em;
+	font-size: 1.6em;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: #ab2318;
+}
+
+.list li{
+	color: #928b86;
+	font-size: 1.2em;
+	font-weight: 500;
+}
+
+.svg{
+	background-color: black;
+}
