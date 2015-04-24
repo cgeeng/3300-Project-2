@@ -26,7 +26,8 @@
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.png">
-
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -97,7 +98,7 @@
             <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
  
           </div>
-          <direv class="two-thirds column svg" style="margin-top: 10%">
+          <div class="two-thirds column svg" style="margin-top: 10%">
             <h3>TOP 10 BURRITOS</h3>
           </div>
         </div>
@@ -105,6 +106,12 @@
   </section>
 
 <script>
+    
+    //keys
+    
+    var svgKey = d3.select("body").append("svg")
+        .attr("width",200)
+        .attr("height",200);
 
     var chipotleData;
     var itemNames;
