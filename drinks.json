@@ -1,0 +1,45 @@
+{"name": "Drink",
+"children": [
+ {
+ "name": "6 Pack", "size": 55,
+ "children": [
+  {"name": "Coke", "size": 21},
+  {"name": "Coke", "size": 25},
+  {"name": "Lemonade", "size": 2},
+  {"name": "Nestea", "size": 2},
+  {"name": "Sprite", "size": 5}
+ ]
+ },
+ {"name": "Bottled Water", "size": 211},
+ {
+ "name": "Canned Drink", "size": 477,
+ "children": [
+  {"name": "Coke", "size": 154},
+  {"name": "Coke", "size": 134},
+  {"name": "Dr. Pepper", "size": 21},
+  {"name": "Diet Dr. Pepper", "size": 14},
+  {"name": "Lemonade", "size": 34},
+  {"name": "Mountain Dew", "size": 18},
+  {"name": "Nestea", "size": 18},
+  {"name": "Sprite", "size": 84}
+ ]
+ },
+ {
+ "name": "Izze", "size": 20,
+ "children": [
+  {"name": "Clementine", "size": 8},
+  {"name": "Grapefruit", "size": 4},
+  {"name": "Blackberry", "size": 8}
+ ]
+ },
+ {
+ "name": "Nantucket Nectar", "size": 29,
+ "children": [
+  {"name": "Apple", "size": 6},
+  {"name": "Pomegranate Cherry", "size": 5},
+  {"name": "Pineapple Orange Banana", "size": 9},
+  {"name": "Peach Orange", "size": 9}
+ ]
+ }
+ ]
+}
