@@ -104,7 +104,60 @@
         </div>
       </div>
   </section>
+    <a href="#" onclick="randomFood()">Random</a>
+    <svg width="300" height="350" class="key">
+        <circle cx="20" cy="50" r="5" fill="#f85a48" />
+        <text x = "35" y = "55"> Fresh Tomato Salsa (Mild) </text>
 
+        <circle cx = "20" cy = "70" r = "5" fill = "#96ad00" />
+        <text x = "35" y = "75" > Tomatillo-Green Chili Salsa (Medium) </text>
+
+        <circle cx = "20" cy = "90" r = "5" fill = "red" />
+        <text x = "35" y = "95"> Tomatillo Red Chili Salsa </text>
+
+        <circle cx = "20" cy = "110" r = "5" fill = "#a30000" />
+        <text x = "35" y = "115"> Tomatillo-Red Chili Salsa (Hot) </text>
+
+        <circle cx = "20" cy = "130" r = "5" fill = "#f3deaf" />
+        <text x = "35" y = "135"> Roasted Chili Corn Salsa </text>
+
+        <circle cx = "20" cy = "150" r = "5" fill = "#f3a467" />
+        <text x = "35" y = "155"> Roasted Chili Corn Salsa (Medium) </text>
+
+        <circle cx = "20" cy = "170" r = "5" fill = "black" />
+        <text x = "35" y = "175" > Black Beans </text>
+
+        <circle cx = "20" cy = "190" r = "5" fill = "#a042ff" />
+        <text x = "35" y = "195"> Pinto Beans </text>
+
+        <circle cx = "20" cy = "210" r = "5" fill = "#2C6674" />
+        <text x = "35" y = "215"> Fajita Vegetables </text>
+
+        <circle cx = "20" cy = "230" r = "5" fill = "#c4c1bf" />
+        <text x = "35" y = "235"> Rice </text>
+
+        <circle cx = "20" cy = "250" r = "5" fill = "#daff7f" />
+        <text x = "35" y = "255"> Cilantro-Lime Rice </text>
+
+        <circle cx = "20" cy = "270" r = "5" fill = "orange" />
+        <text x = "35" y = "275" > Cheese </text>
+
+        <circle cx = "20" cy = "290" r = "5" fill = "#91aaaf" />
+        <text x = "35" y = "295"> Sour Cream </text>
+
+        <circle cx = "20" cy = "310" r = "5" fill = "#5df93e" />
+        <text x = "35" y = "315"> Guacamole </text>
+
+        <circle cx = "20" cy = "330" r = "5" fill = "#afdfa4" />
+        <text x = "35" y = "335"> Lettuce </text>
+    </svg>
+    
+      <div id="main-burst"></div>
+  
+  <div id="svg-container">
+  <span id="drinks-burst"></span>
+  <span id="sides-burst"></span>
+  </div>
 <script>
     
     //keys
@@ -123,7 +176,8 @@
         var m = chipotleData.map( function(d) { return d.item_name; });
         //Stores distinct item names
         itemNames = d3.set(m).values().sort();
-
+        
+        /*
         //Generate a list of items
         var str = '<ul class="itemselect">';
         itemNames.forEach( function(d) {
@@ -133,6 +187,8 @@
         });
         str += '</ul>';
         $('body').append(str);
+        
+        */
 
     });
 
@@ -147,6 +203,477 @@
         $('body').append(div);
     }
 
+</script>
+<script>
+    function format_number(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    function format_name(d) {
+        var name = d.name;
+        return  '<b>' + name + '</b><br>' + format_number(d.size);
+    }
+
+    var mainWidth = 960,
+        mainHeight = 700,
+        mainMargin = {top: 30, right: 20, bottom: 30, left: 20},
+        mainRadius = Math.min(mainWidth, mainHeight) / 2;
+
+    var mainX = d3.scale.linear()
+        .range([0, 2 * Math.PI]);
+
+    var mainY = d3.scale.linear()
+        .range([0, mainRadius]);
+
+    var color = d3.scale.category20c();
+
+    var hueDXScale = d3.scale.linear()
+                   .domain([0,1])      
+                   .range([0,360]);
+
+    var mainSvg = d3.select("#main-burst").append("svg")
+        .attr("width", mainWidth)
+        .attr("height", mainHeight + mainMargin.top + mainMargin.bottom)
+        .attr("class", "svg")
+      .append("g")
+        .attr("transform", "translate(" + (mainWidth/2) + "," + (mainHeight/2 + mainMargin.top) + ")");
+
+    var mainPartition = d3.layout.partition()
+        .value(function(d) { return d.size; });
+
+    var mainArc = d3.svg.arc()
+        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, mainX(d.x))); })
+        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, mainX(d.x + d.dx))); })
+        .innerRadius(function(d) { return Math.max(0, mainY(d.y)); })
+        .outerRadius(function(d) { return Math.max(0, mainY(d.y + d.dy)); });
+
+    var mainTooltip = d3.select("#main-burst")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", "99")
+        .style("opacity", 0);
+    
+    var data;
+
+
+    //JSON START
+    d3.json("main.json", function(error, root) {
+        
+      data = root;    
+    var svgText = d3.select("#main-burst").append("svg")
+        .attr("width", 200).attr("height", 200);
+    var text = svgText.append("text");
+    var textLabels = text
+                    .attr("x", 5)
+                    .attr("y", 5)
+                    .attr("font-family", "lato")
+                    .attr("font-size", "20px")
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "black")
+                    .text(function(d) { return d.name; });
+        
+      var mainG = mainSvg.selectAll("g")
+          .data(mainPartition.nodes(root))
+          .enter().append("g");
+
+      var mainPath = mainG.append("path")
+        .attr("d", mainArc)
+        .style("fill", function(d,i) {  
+            //console.log(d);
+            if( d.depth===0 ){
+                return '#fff';
+            } 
+            if( d.depth === 1 ){ 
+                var hue =  hueDXScale(d.dx);
+             
+                d.fill = d3.hsl(hue,0.5,0.6)
+                return d.fill;
+            } 
+            //now create scale for index in current array based on 'value'
+            d.fill = d.parent.fill.brighter(0.5);    
+            var hsl = d3.rgb(d.fill).hsl();          
+            var hue =  hueDXScale(d.dx);
+            var colorshift = hsl.h+(hue/4); 
+            return d3.hsl(colorshift,hsl.s,hsl.l)
+        })  
+        .on("click", click)
+        //tooltip stuff
+        .on("mouseover", function(d) {
+            mainTooltip.html(function() {
+                return d.name + " " + d.size;
+            });
+            return mainTooltip.transition()
+              .duration(50)
+              .style("opacity", 0.9);
+        })
+        .on("mousemove", function(d) {
+            return mainTooltip
+              .style("top", (d3.event.pageY-10)+"px")
+              .style("left", (d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function() {
+            return mainTooltip
+              .style("opacity", 0);
+        });
+
+        //text stuff
+        var mainText = mainG.append("text")
+        .attr("class", "labels")
+        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+        .attr("x", function(d) { return mainY(d.y); })
+        .attr("dx", "6") // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
+        .text(function(d) { 
+          return d.name;
+        });
+
+        var mainTitle = mainSvg.append("text")
+        .attr("dy", -(mainHeight/2+10))
+        .attr("text-anchor", "middle")
+        .text("Overview of All Orders");
+
+        function computeTextRotation(d) {
+          return (mainX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+        }
+
+      function click(d) {
+        // fade out all text elements
+        mainText.transition().attr("opacity", 0);
+
+        mainPath.transition()
+          .duration(750)
+          .attrTween("d", mainArcTween(d))
+          .each("end", function(e, i) {
+              // check if the animated element's data e lies within the visible angle span given in d
+              if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                // get a selection of the associated text element
+                var mainArcText = d3.select(this.parentNode).select("text");
+                // fade in the text element and recalculate positions
+                mainArcText.transition().duration(750)
+                  .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
+                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                  .attr("x", function(d) { return mainY(d.y); });
+              }
+        });
+      }
+        
+
+        
+        var str = '<a href="#" onclick="randomFood()">Random</a>';
+        $('body').append(str);
+    }); //END DATA PARSING
+    
+    function randomFood() {
+        var count = data[0].length;
+        var random = Math.floor((Math.random() * count) + 0);
+        console.log(count);
+        console.log( data[0][random]);
+        //click(d);
+    };
+
+    d3.select(self.frameElement).style("height", mainHeight + "px");
+
+    // Interpolate the scales!
+    function mainArcTween(d) {
+      var mainXd = d3.interpolate(mainX.domain(), [d.x, d.x + d.dx]),
+          mainYd = d3.interpolate(mainY.domain(), [d.y, 1]),
+          mainYr = d3.interpolate(mainY.range(), [d.y ? 20 : 0, mainRadius]);
+      return function(d, i) {
+        return i
+            ? function(t) { return mainArc(d); }
+            : function(t) { mainX.domain(mainXd(t)); mainY.domain(mainYd(t)).range(mainYr(t)); return mainArc(d); };
+      };
+    }
+</script>
+
+<script>
+
+    var drinksWidth = 500,
+        drinksHeight = 400,
+        drinksMargin = {top: 30, right: 20, bottom: 30, left: 20},
+        drinksRadius = Math.min(drinksWidth, drinksHeight) / 2;
+
+    var drinksX = d3.scale.linear()
+        .range([0, 2 * Math.PI]);
+
+    var drinksY = d3.scale.linear()
+        .range([0, drinksRadius]);
+
+    var color = d3.scale.category20c();
+
+    var hueDXScale = d3.scale.linear()
+                   .domain([0,1])      
+                   .range([0,360]);
+
+    var drinksSvg = d3.select("#drinks-burst").append("svg")
+        .attr("width", drinksWidth)
+        .attr("height", drinksHeight + drinksMargin.top + drinksMargin.bottom)
+        .attr("class", "svg")
+      .append("g")
+        .attr("transform", "translate(" + (drinksWidth/2) + "," + (drinksHeight/2 + drinksMargin.top) + ")");
+
+    var drinksPartition = d3.layout.partition()
+        .value(function(d) { return d.size; });
+
+    var drinksArc = d3.svg.arc()
+        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, drinksX(d.x))); })
+        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, drinksX(d.x + d.dx))); })
+        .innerRadius(function(d) { return Math.max(0, drinksY(d.y)); })
+        .outerRadius(function(d) { return Math.max(0, drinksY(d.y + d.dy)); });
+
+    var drinksTooltip = d3.select("#drinks-burst")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", "99")
+        .style("opacity", 0);
+
+    d3.json("drinks.json", function(error, root) {
+      var drinksG = drinksSvg.selectAll("g")
+          .data(drinksPartition.nodes(root))
+          .enter().append("g");
+
+      var drinksPath = drinksG.append("path")
+        .attr("d", drinksArc)
+        .style("fill", function(d,i) {  
+            //console.log(d);
+            if( d.depth===0 ){
+                return '#fff';
+            } 
+            if( d.depth === 1 ){ 
+                var hue =  hueDXScale(d.dx);
+             
+                d.fill = d3.hsl(hue,0.5,0.6)
+                return d.fill;
+            } 
+            //now create scale for index in current array based on 'value'
+            d.fill = d.parent.fill.brighter(0.5);    
+            var hsl = d3.rgb(d.fill).hsl();          
+            var hue =  hueDXScale(d.dx);
+            var colorshift = hsl.h+(hue/4); 
+            return d3.hsl(colorshift,hsl.s,hsl.l)
+        })  
+        .on("click", click)
+        //tooltip stuff
+        .on("mouseover", function(d) {
+            drinksTooltip.html(function() {
+                return d.size;
+            });
+            return drinksTooltip.transition()
+              .duration(50)
+              .style("opacity", 0.9);
+        })
+        .on("mousemove", function(d) {
+            return drinksTooltip
+              .style("top", (d3.event.pageY-10)+"px")
+              .style("left", (d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function() {
+            return drinksTooltip
+              .style("opacity", 0);
+        });
+
+        //text stuff
+        var drinksText = drinksG.append("text")
+        .attr("class", "labels")
+        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+        .attr("x", function(d) { return drinksY(d.y); })
+        .attr("dx", "6") // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
+        .text(function(d) { 
+          return d.name;
+        });
+
+        var title = drinksSvg.append("text")
+        .attr("dy", -(drinksHeight/2+10))
+        .attr("text-anchor", "middle")
+        .text("Thirsty?");
+
+        function computeTextRotation(d) {
+          return (drinksX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+        }
+
+      function click(d) {
+        // fade out all text elements
+        drinksText.transition().attr("opacity", 0);
+
+        drinksPath.transition()
+          .duration(750)
+          .attrTween("d", drinksArcTween(d))
+          .each("end", function(e, i) {
+              // check if the animated element's data e lies within the visible angle span given in d
+              if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                // get a selection of the associated text element
+                var drinksArcText = d3.select(this.parentNode).select("text");
+                // fade in the text element and recalculate positions
+                drinksArcText.transition().duration(750)
+                  .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
+                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                  .attr("x", function(d) { return drinksY(d.y); });
+              }
+        });
+      }
+    });
+
+    d3.select(self.frameElement).style("height", drinksHeight + "px");
+
+    // Interpolate the scales!
+    function drinksArcTween(d) {
+      var drinksXd = d3.interpolate(drinksX.domain(), [d.x, d.x + d.dx]),
+          drinksYd = d3.interpolate(drinksY.domain(), [d.y, 1]),
+          drinksYr = d3.interpolate(drinksY.range(), [d.y ? 20 : 0, drinksRadius]);
+      return function(d, i) {
+        return i
+            ? function(t) { return drinksArc(d); }
+            : function(t) { drinksX.domain(drinksXd(t)); drinksY.domain(drinksYd(t)).range(drinksYr(t)); return drinksArc(d); };
+      };
+    }
+</script>
+
+<script>
+var sidesWidth = 500,
+        sidesHeight = 400,
+        sidesMargin = {top: 30, right: 20, bottom: 30, left: 20},
+        sidesRadius = Math.min(sidesWidth, sidesHeight) / 2;
+
+    var sidesX = d3.scale.linear()
+        .range([0, 2 * Math.PI]);
+
+    var sidesY = d3.scale.linear()
+        .range([0, sidesRadius]);
+
+    var color = d3.scale.category20c();
+
+    var hueDXScale = d3.scale.linear()
+                   .domain([0,1])      
+                   .range([0,360]);
+
+    var sidesSvg = d3.select("#sides-burst").append("svg")
+        .attr("width", sidesWidth)
+        .attr("height", sidesHeight + sidesMargin.top + sidesMargin.bottom)
+        .attr("class", "svg")
+      .append("g")
+        .attr("transform", "translate(" + (sidesWidth/2) + "," + (sidesHeight/2 + sidesMargin.top) + ")");
+
+    var sidesPartition = d3.layout.partition()
+        .value(function(d) { return d.size; });
+
+    var sidesArc = d3.svg.arc()
+        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, sidesX(d.x))); })
+        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, sidesX(d.x + d.dx))); })
+        .innerRadius(function(d) { return Math.max(0, sidesY(d.y)); })
+        .outerRadius(function(d) { return Math.max(0, sidesY(d.y + d.dy)); });
+
+    var sidesTooltip = d3.select("#sides-burst")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", "99")
+        .style("opacity", 0);
+
+    d3.json("sides.json", function(error, root) {
+      var sidesG = sidesSvg.selectAll("g")
+          .data(sidesPartition.nodes(root))
+          .enter().append("g");
+
+      var sidesPath = sidesG.append("path")
+        .attr("d", sidesArc)
+        .style("fill", function(d,i) {  
+            //console.log(d);
+            if( d.depth===0 ){
+                return '#fff';
+            } 
+            if( d.depth === 1 ){ 
+                var hue =  hueDXScale(d.dx);
+             
+                d.fill = d3.hsl(hue,0.5,0.6)
+                return d.fill;
+            } 
+            //now create scale for index in current array based on 'value'
+            d.fill = d.parent.fill.brighter(0.5);    
+            var hsl = d3.rgb(d.fill).hsl();          
+            var hue =  hueDXScale(d.dx);
+            var colorshift = hsl.h+(hue/4); 
+            return d3.hsl(colorshift,hsl.s,hsl.l)
+        })  
+        .on("click", click)
+        //tooltip stuff
+        .on("mouseover", function(d) {
+            sidesTooltip.html(function() {
+                return d.size;
+            });
+            return sidesTooltip.transition()
+              .duration(50)
+              .style("opacity", 0.9);
+        })
+        .on("mousemove", function(d) {
+            return sidesTooltip
+              .style("top", (d3.event.pageY-10)+"px")
+              .style("left", (d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function() {
+            return sidesTooltip
+              .style("opacity", 0);
+        });
+
+        //text stuff
+        var sidesText = sidesG.append("text")
+        .attr("class", "labels")
+        .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+        .attr("x", function(d) { return sidesY(d.y); })
+        .attr("dx", "6") // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("opacity", function(d) {return d.depth == 1 ? 1 : 0;})
+        .text(function(d) { 
+          return d.name;
+        });
+
+        var title = sidesSvg.append("text")
+        .attr("dy", -(sidesHeight/2+10))
+        .attr("text-anchor", "middle")
+        .text("Still Hungry?");
+
+        function computeTextRotation(d) {
+          return (sidesX(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+        }
+
+      function click(d) {
+        // fade out all text elements
+        sidesText.transition().attr("opacity", 0);
+
+        sidesPath.transition()
+          .duration(750)
+          .attrTween("d", sidesArcTween(d))
+          .each("end", function(e, i) {
+              // check if the animated element's data e lies within the visible angle span given in d
+              if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                // get a selection of the associated text element
+                var sidesArcText = d3.select(this.parentNode).select("text");
+                // fade in the text element and recalculate positions
+                sidesArcText.transition().duration(750)
+                  .attr("opacity", function(e) {return (e.depth - d.depth) <= 1 && e.depth != 0 ? 1 : 0;})
+                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                  .attr("x", function(d) { return sidesY(d.y); });
+              }
+        });
+      }
+    });
+
+    d3.select(self.frameElement).style("height", sidesHeight + "px");
+
+    // Interpolate the scales!
+    function sidesArcTween(d) {
+      var sidesXd = d3.interpolate(sidesX.domain(), [d.x, d.x + d.dx]),
+          sidesYd = d3.interpolate(sidesY.domain(), [d.y, 1]),
+          sidesYr = d3.interpolate(sidesY.range(), [d.y ? 20 : 0, sidesRadius]);
+      return function(d, i) {
+        return i
+            ? function(t) { return sidesArc(d); }
+            : function(t) { sidesX.domain(sidesXd(t)); sidesY.domain(sidesYd(t)).range(sidesYr(t)); return sidesArc(d); };
+      };
+    }
 </script>
 
 

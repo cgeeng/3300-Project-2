@@ -11,9 +11,8 @@
   <section id="header">
       <article>What Do I Chipotle?</article>
   </section>
-  <section id="banner" data-type="background" data-speed="10">
-  </section>
 
+      <img src="images/burrito.png">
   <p>We've all had that moment. You are waiting in line and cannot wait to get your delicious Chipotle meal. But once it's actually your turn to order, you freeze up at all the choices behind the screen. Fear no more, "What Do I Chipotle?" is here to help!</p>
 
   <div id="sequence"></div>
@@ -142,7 +141,7 @@
         //tooltip stuff
         .on("mouseover", function(d) {
             mainTooltip.html(function() {
-                return d.size;
+               return d.name + " " + d.size;
             });
             return mainTooltip.transition()
               .duration(50)

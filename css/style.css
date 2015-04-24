@@ -73,3 +73,14 @@ path {
 .tooltip {
   font-size: 12px;
 }
+img {
+    float: left;
+    width: 500px;
+}
+p {
+    float right;
+    margin: 5%;
+}
+#main-burst {
+    clear: both;
+}
