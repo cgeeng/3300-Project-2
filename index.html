@@ -104,11 +104,71 @@
         </div>
       </div>
   </section>
+    
+    <svg width="300" height="350" class="key">
+        <circle cx="20" cy="50" r="5" fill="#f85a48" />
+        <text x = "35" y = "55"> Fresh Tomato Salsa (Mild) </text>
+
+        <circle cx = "20" cy = "70" r = "5" fill = "#96ad00" />
+        <text x = "35" y = "75" > Tomatillo-Green Chili Salsa (Medium) </text>
+
+        <circle cx = "20" cy = "90" r = "5" fill = "red" />
+        <text x = "35" y = "95"> Tomatillo Red Chili Salsa </text>
+
+        <circle cx = "20" cy = "110" r = "5" fill = "#a30000" />
+        <text x = "35" y = "115"> Tomatillo-Red Chili Salsa (Hot) </text>
+
+        <circle cx = "20" cy = "130" r = "5" fill = "#f3deaf" />
+        <text x = "35" y = "135"> Roasted Chili Corn Salsa </text>
+
+        <circle cx = "20" cy = "150" r = "5" fill = "#f3a467" />
+        <text x = "35" y = "155"> Roasted Chili Corn Salsa (Medium) </text>
+
+        <circle cx = "20" cy = "170" r = "5" fill = "black" />
+        <text x = "35" y = "175" > Black Beans </text>
+
+        <circle cx = "20" cy = "190" r = "5" fill = "#ac652f" />
+        <text x = "35" y = "195"> Pinto Beans </text>
+
+        <circle cx = "20" cy = "210" r = "5" fill = "#2C6674" />
+        <text x = "35" y = "215"> Fajita Vegetables </text>
+
+        <circle cx = "20" cy = "230" r = "5" fill = "#c4c1bf" />
+        <text x = "35" y = "235"> Rice </text>
+
+        <circle cx = "20" cy = "250" r = "5" fill = "#daff7f" />
+        <text x = "35" y = "255"> Cilantro-Lime Rice </text>
+
+        <circle cx = "20" cy = "270" r = "5" fill = "orange" />
+        <text x = "35" y = "275" > Cheese </text>
+
+        <circle cx = "20" cy = "290" r = "5" fill = "#91aaaf" />
+        <text x = "35" y = "295"> Sour Cream </text>
+
+        <circle cx = "20" cy = "310" r = "5" fill = "#5df93e" />
+        <text x = "35" y = "315"> Guacamole </text>
+
+        <circle cx = "20" cy = "330" r = "5" fill = "#afdfa4" />
+        <text x = "35" y = "335"> Lettuce </text>
+    </svg>
 
 <script>
 
     var chipotleData;
     var itemNames;
+    var ingredientList = ['Fresh Tomato Salsa (Mild)', 
+                          'Tomatillo-Green Chili Salsa (Medium)', 
+                          'Tomatillo Red Chili Salsa', 'Tomatillo-Red Chili Salsa (Hot)',
+                          'Roasted Chili Corn Salsa', 'Roasted Chili Corn Salsa (Medium)',
+                          'Black Beans', 'Pinto Beans',
+                          'Fajita Vegetables',
+                          'Rice', 'Cilantro-Lime Rice', 'Cheese', 'Sour Cream', 'Guacamole', 'Lettuce'];
+    
+    var svgKey = d3.select("body").append("svg")
+        .attr("width",150)
+        .attr("height",300)
+        .attr("class","key");
+                      
 
     d3.tsv("orders.tsv", function (error, rows) {
         //Store all data
@@ -127,7 +187,7 @@
         });
         str += '</ul>';
         $('body').append(str);
-
+        
     });
 
     //function to calculate ingredient %
