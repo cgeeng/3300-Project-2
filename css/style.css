@@ -13,9 +13,9 @@ body {
 	padding-left: 30px;
 }
 #banner {
-	background: url(../img/background.jpg) 50% 0 repeat fixed;
-	min-height: 400px;
-	height: 400px;
+	background: url(../images/background.jpg) 50% 0 repeat fixed;
+	min-height: 200px;
+	height: 200px;
 	margin: 0 auto;
 	width: 100%;
 	position: relative;
@@ -23,17 +23,6 @@ body {
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-}
-#banner article {
-	font-family: 'Open Sans';
-	font-size: 100px;
-	color: white;
-	height: 150px;
-	position: absolute;
-	text-align: center;
-	top: 50px;
-	padding-left: 50px;
-	width: 30%;
 }
 h4{
 	display: block;
@@ -83,4 +72,32 @@ p {
 }
 #main-burst {
     clear: both;
+}
+hr {
+    padding: 0;
+    border: none;
+    border-top: medium double;
+    color: #A8A8A8;
+    text-align: center;
+    width: 50%;
+}
+#footer {
+	margin: 0px auto;
+	width: 850px;
+}  
+#footer a {
+	color: #6B3A11;
+	text-decoration: none;
+}  
+#footer a:hover {
+	color: #2d2015;
+	text-decoration: none;
+}
+#footer .thanks {
+	padding: 5px 0;
+	text-align: center;
+}
+#footer .copyright {
+	padding: 10px 0;
+	text-align: center;
 }
